@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 const port = process.env.PORT || 5000;
 const uri = "mongodb+srv://crud-user:EAwWG5XVOvlhumpc@cluster0.j1ku2ab.mongodb.net/?appName=Cluster0";
@@ -37,6 +37,15 @@ async function run() {
       res.send(users);
     })
 
+    app.get('/users/:id', async(req, res) =>{
+      const id = req.params.id;
+      const query = {
+        _id: new ObjectId(id)
+      }
+      const user = await usersCollection.findOne(query);
+      res.send(user);
+    })
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
@@ -49,7 +58,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get('/', (req, res) => {
-  res.send('HElllo world');
+  res.send('Helllo world');
 
 })
 
