@@ -46,6 +46,13 @@ async function run() {
       res.send(user);
     })
 
+    app.post('/users', async(req, res)=>{
+      const newUser = req.body;
+      console.log('user to be inserted: ',newUser);
+      const result = await usersCollection.insertOne(newUser);
+      res.send(result);
+    })
+
     app.delete('/users/:id', async(req, res)=>{
       const id = req.params.id;
       const query = {
